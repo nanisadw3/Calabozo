@@ -17,7 +17,9 @@ namespace Calabozo
         public Form1()
         {
             InitializeComponent();
-            Bitmap img = new Bitmap(Application.StartupPath + @"\img\Calabozo.jpg");//Cargamos la imagen para el fondo del juego
+            string rutaImagen = Path.Combine(Application.StartupPath, "Imagen", "Calabozo.jpg");
+            Bitmap img = new Bitmap(rutaImagen);
+
             this.BackgroundImage = img;//la asignamos como background
             this.BackgroundImageLayout = ImageLayout.Stretch;//le asignamos su respectivo layout
             this.StartPosition = FormStartPosition.CenterScreen;//sentramos el marco de la aplicacion
@@ -37,48 +39,52 @@ namespace Calabozo
 
         }
 
-        void lectura(string ruta)
+        void lectura(string nombreArchivo)
         {
             try
             {
+                // Construimos la ruta completa al archivo dentro de la carpeta 'maps'
+                string rutaMapa = Path.Combine(Application.StartupPath, "Mapas", nombreArchivo);
+
                 mapa.Clear();
-                StreamReader reader = new StreamReader(ruta, Encoding.Default);
-                int row = 0;
 
-                while (!reader.EndOfStream)
+                using (StreamReader reader = new StreamReader(rutaMapa, Encoding.Default))
                 {
-                    string linea = reader.ReadLine();
-                    mapa.Add(linea);
+                    int row = 0;
 
-                    if (linea.Contains("!"))
+                    while (!reader.EndOfStream)
                     {
-                        int x = row;
-                        int y = linea.IndexOf("!");
+                        string linea = reader.ReadLine();
+                        mapa.Add(linea);
 
-                        jugador = new Jugador(x, y);
-                        //leemos el mapa y si contiene este signo obtenemos la posocion de ese seigno y se la asignamos al jugador inicializando lo 
+                        if (linea.Contains("!"))
+                        {
+                            int x = row;
+                            int y = linea.IndexOf("!");
+
+                            jugador = new Jugador(x, y);
+                        }
+                        row++;
                     }
-                    row++;
-
-
                 }
+
                 generar_Mounstros();
 
                 if (jugador == null)
                 {
                     throw new Exception("No se encontró la posición del jugador en el mapa.");
                 }
+
                 posicion_mounstros();
                 actualizarMapa();
                 ActualizarVidaJugador();
-                reader.Close();
-
             }
             catch (Exception e)
             {
                 MessageBox.Show("Error en la lectura: " + e.Message);
             }
         }
+
 
         private void turno(string seleccion)
         {

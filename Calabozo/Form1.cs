@@ -36,7 +36,7 @@ namespace Calabozo
         {
 
         }
-        
+
         void lectura(string ruta)
         {
             try
@@ -63,7 +63,7 @@ namespace Calabozo
 
                 }
                 generar_Mounstros();
-                
+
                 if (jugador == null)
                 {
                     throw new Exception("No se encontró la posición del jugador en el mapa.");
@@ -109,7 +109,7 @@ namespace Calabozo
             {
                 moverMonstruos();
             }
-            
+
             posicion_mounstros();
             ActualizarVidaJugador();
             actualizarMapa();
@@ -134,9 +134,9 @@ namespace Calabozo
                 actualizarMapa();//movemos al jugador y actualizamos el mapa 
             }
 
-            
-            int[] dxArray = { -1, 1, 0, 0 }; 
-            int[] dyArray = { 0, 0, -1, 1 }; 
+
+            int[] dxArray = { -1, 1, 0, 0 };
+            int[] dyArray = { 0, 0, -1, 1 };
 
             for (int i = 0; i < 4; i++)
             {
@@ -156,7 +156,7 @@ namespace Calabozo
                             if (m.X == adyacenteX && m.Y == adyacenteY) //si la posicion en la que se encuentra el mounstro resulto ser adyasente al jugador entonces este es el mpunstro que estams buscando
                             {
                                 monstruo = m; //asignamos mousntro al mounstro vacio de el principio para poder usarlo en el ataque 
-                                break; 
+                                break;
                             }
                         }
 
@@ -192,7 +192,7 @@ namespace Calabozo
                     x = random.Next(mapa.Count);
                     y = random.Next(mapa[x].Length);
                 }
-                
+
                 while (mapa[x][y] != '-'); //mientar la posicion donde quiero asigbar un mounstro sea valida
 
                 int vida = random.Next(15, 30); //asignamos la vida al mounstro
@@ -201,10 +201,10 @@ namespace Calabozo
                 else if (i == 1) txt_info.Text += "m2: " + vida + "hp\n\r\n";
                 else if (i == 2) txt_info.Text += "m3: " + vida + "hp\n\r\n";
                 // metemos los mounstros en sus posiciones aleatorias 
-                mapa[x] = mapa[x].Remove(y, 1).Insert(y, "m"); 
+                mapa[x] = mapa[x].Remove(y, 1).Insert(y, "m");
 
                 monstruos.Add(new Monstruo(x, y, vida)); //creamos a los mounstros en sus respectivas clases y los metemos al arreglo 
-                
+
             }
         }
         private void moverMonstruos()
@@ -214,12 +214,12 @@ namespace Calabozo
                 int[] dx = { -1, 1, 0, 0 };
                 int[] dy = { 0, 0, -1, 1 };
 
-                bool atacado = false; 
+                bool atacado = false;
 
                 for (int i = 0; i < 4; i++)
                 {
                     //los mounstros se mueven aleatoriamente
-                    int adyacenteX = monstruo.X + dx[i]; 
+                    int adyacenteX = monstruo.X + dx[i];
                     int adyacenteY = monstruo.Y + dy[i];
 
                     if (adyacenteX >= 0 && adyacenteX < mapa.Count &&
@@ -233,25 +233,25 @@ namespace Calabozo
                         MessageBox.Show("¡El monstruo ataca al jugador!");
 
                         atacado = true;
-                        break; 
+                        break;
                     }
                 }
 
-                
+
                 if (!atacado)//si el mounstro no esta atacando 
                 {
                     //recostamos la distancia entre el jugaddor y el mounstro para saver que tan serca se encuentran uno del otro
                     int distanciaX = monstruo.X - jugador.X;
                     int distanciaY = monstruo.Y - jugador.Y;
 
-                    
+
                     if (distanciaX <= 4 && distanciaY <= 4)//si el mousntro se encuentra proximo al jugador a una distancia de 4
                     {
                         //asignamos estas variables que seran la posicion a donde se acercara el mounstro al jugador 
                         int direccionX = 0;
                         int direccionY = 0;
 
-                        
+
                         if (monstruo.X < jugador.X) direccionX = 1; // si la posicion en x del mousntro es menor que la de el jugador entonces el mousntro se tiene que mover a la derecha
                         else if (monstruo.X > jugador.X) direccionX = -1;// si el mountro se encuentra a la derecha del jugador entonces nos movemos a la hizquierda
 
@@ -266,7 +266,7 @@ namespace Calabozo
                             nuevaY >= 0 && nuevaY < mapa[nuevaX].Length &&
                             mapa[nuevaX][nuevaY] == '-')
                         {// si la poscicion a la que nos queremos mover es valida
-                            
+
                             // asignamos la posicion y remplazamos la - y m
                             mapa[monstruo.X] = mapa[monstruo.X].Remove(monstruo.Y, 1).Insert(monstruo.Y, "-");
                             monstruo.X = nuevaX;
@@ -285,7 +285,7 @@ namespace Calabozo
                             nuevaY >= 0 && nuevaY < mapa[nuevaX].Length &&
                             mapa[nuevaX][nuevaY] == '-')
                         {
-                            
+
                             mapa[monstruo.X] = mapa[monstruo.X].Remove(monstruo.Y, 1).Insert(monstruo.Y, "-");
                             monstruo.X = nuevaX;
                             monstruo.Y = nuevaY;
@@ -319,15 +319,15 @@ namespace Calabozo
                     lectura(ruta);
                     actualizarMapa();
                 }
-                
+
 
             }
-            
+
         }
         private bool Escaleras()
         {
             int[] dx = { -1, 1, 0, 0 };
-            int[] dy = { 0, 0, -1, 1 }; 
+            int[] dy = { 0, 0, -1, 1 };
 
             for (int i = 0; i < 4; i++)
             {
@@ -339,7 +339,7 @@ namespace Calabozo
                 {
                     if (mapa[nuevaX][nuevaY] == '+')
                     {
-                        return true; 
+                        return true;
                     }
                     else if (mapa[nuevaX][nuevaY] == '/')
                     {
